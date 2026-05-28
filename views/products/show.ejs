@@ -1,0 +1,75 @@
+<% layout('layouts/boilerplate') %>
+
+
+    <div class="container">
+        <h3>Brand:<%= product.brand %>
+        </h3>
+        <h3>Name: <%= product.name.toUpperCase() %>
+        </h3>
+    </div>
+
+
+    <div class="card mb-3" style="background-color: #bdfcee;">
+        <div class="md-8">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div id="productCarousel" class="carousel slide">
+                        <div class="carousel-inner">
+                            <% product.images.forEach((img, i)=> { %>
+                                <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+                                    <img src="<%= img.url %>" class="d-block w-100 carousel-img-fixed" alt="...">
+                                </div>
+                                <% }) %>
+                        </div>
+
+                        <% if (product.images.length> 1) { %>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel"
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            </button>
+                            <% } %>
+                    </div>
+
+            
+                    <h5 class="card-title">Category: <%=product.category.toUpperCase() %>
+                    </h5>
+                    <p class="card-text"><b>Price: £<%=product.price %></b></p>
+                    <p class="card-text"><b>Amount in stock: <%=product.quantity %></b></p>
+
+                    <p class="card-text">
+                        <%=product.details %>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <button class="btn btn-info" onclick="document.location='/products'">Back to Product List</button>
+
+    <%if (currentUser) {%>
+        <% if(currentUser && currentUser.role==='admin' ) {%>
+            <button class="btn btn-warning" onclick="document.location='/products/<%=product.id %>/edit'">Edit Product
+            </button>
+            <form action="/products/<%=product.id %>?_method=DELETE" method="POST" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                <button class="btn btn-danger">Delete (admin)</button>
+            </form>
+
+            <%} else {%>
+
+                <form action="/users/<%=currentUser._id %>/orderproducts" method="POST">
+                    <input type="hidden" name="productId" value="<%= product._id %>">
+                    <input type="number" name="quantityToAdd" value="1" min="1">
+                    <button class="btn btn-success">Add to Cart</button>
+                </form>
+
+                <%}} %>
+
+
+            

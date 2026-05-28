@@ -1,0 +1,65 @@
+<% layout('layouts/boilerplate') %>
+
+    <h2>Order a Product</h2>
+    <table class="table table-primary table-hover">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Brand</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">In Stock</th>
+                    <th scope="col">Price per Unit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let product of products) { %>
+                    <tr class="table-info">
+                        <th scope="row"></th>
+                        <td>
+                            <a href="/products?category=<%=product.category %>">
+                                <%=product.category %>
+                            </a>
+
+
+                        </td>
+                        <td>
+                            <%= product.brand%>
+                        </td>
+                        <td>
+                            <a href="/products/<%=product._id %>">
+                                <%=product.name%>
+                            </a>
+
+                        </td>
+                         <td>
+                            <%= product.quantity%>
+                        </td>
+                        <td>
+                            £<%= product.price%>
+                        </td>
+                    </tr>
+                    <%} %>
+
+
+            </tbody>
+        </table>
+
+        <!-- Input form -->
+
+        
+        <form action="/users/<%=id %>/products" method="POST" novalidate class="validated-form">
+            <div class="form-group">
+                <label for="product">Product:</label>
+                <select name="product" id="product" placeholder="product" class="form-control" required>
+
+                    <% for(product of products) {%>
+                        <option value="<%=product._id%>">
+                            <%=product.brand %> <%=product.name %> - £<%=product.price %> - <%=product.quantity %> in stock
+                        </option>
+                        <%} %>
+                </select>
+           
+            <button class="btn btn-warning">Order</button>
+        </form>
+        <button class="btn btn-info" onclick="document.location='/products'">Cancel</button>

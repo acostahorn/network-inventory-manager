@@ -1,0 +1,68 @@
+<% layout('layouts/boilerplate') %>
+
+        <h2>Update a Product</h1>
+
+            <form action="/products/<%=product._id%>?_method=PUT" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+                <!-- NAME -->
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" name="product[name]" id="name" placeholder="product name" class="form-control" value="<%=product.name %>" required>
+                </div>
+                <!-- BRAND -->
+                <div class="form-group">
+                    <label for="brand">Brand:</label>
+                    <input type="text" name="product[brand]" id="brand" placeholder="brand" class="form-control" value="<%=product.brand %>" required>
+                </div>
+                <!-- PRICE -->
+                <div class="form-group">
+                    <label for="price">Price:</label>
+                    <input type="number" name="product[price]" id="price" step=".01" min="0" placeholder="Price" class="form-control" value="<%=product.price %>" required>
+                </div>
+                <!-- CATEGORY -->
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select name="product[category]" id="category" placeholder="category" class="form-control" value="<%=product.category %>" required>
+                        
+                        <% for(category of categories) {%>
+                            <option value="<%=category %>" <%=product.category === category ? 'selected' : '' %>>
+                                <%=category %>
+                            </option>
+                            <%} %>
+
+
+                    </select>
+                </div>
+                <!-- QUANTITY -->
+                  <div class="form-group">
+                    <label for="quantity">Amount in Stock:</label>
+                    <input type="number" name="product[quantity]" id="quantity" step="1" min="0" class="form-control" value="<%=product.quantity %>" required>
+                </div>
+
+                 <!-- IMAGE -->
+                 <div class="form-group">
+                        <label for="images">Add Images</label>
+                        <input type="file" id="images" name="images" class="form-control" multiple>
+                   <div id="file-list" class="mt-2 small text-muted"></div>
+                    </div>
+                <!-- DETAILS -->
+                <div class="form-group">
+                    <label for="details">Details:</label>
+                    <textarea id="details" name="product[details]" class="form-control"><%=product.details %></textarea>
+                </div>
+                <!-- delete images -->
+                 <div>
+                        <% product.images.forEach(function(img,i) {%>
+                            <img src="<%=img.thumbnail%>" class="img-thumbnail delete-thumbnail" alt="">
+                            <div class="form-check-inline">
+                                <input type="checkbox" id="image-<%=i %>" name="deleteImages[]" value="<%=img.filename  %>">
+                            </div>
+                            <label for="image-<%=i  %>">Delete?</label>
+                            <%})  %>  
+                    </div>
+                <!-- Submit button -->
+                <button class="btn btn-warning">Submit</button>
+            </form>
+                <button class="btn btn-info" onclick="document.location='/products/<%=product.id %>'">Cancel</button>
+
+
+    

@@ -1,0 +1,28 @@
+<% layout('layouts/boilerplate') %>
+<h3>Edit User</h3>
+ <!-- Input form -->
+
+        <form action="/users/<%=user._id%>?_method=PUT" method="POST" novalidate class="validated-form">
+             <!-- USERNAME -->
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" name="user[username]" id="username" placeholder="username" value="<%=user.username  %>" class="form-control"
+                    required>
+                <div class="valid-feedback">This one looks good</div>
+            </div>
+            <!-- PASSWORD -->
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" name="user[password]" id="password" placeholder="password" value="<%=user.password %>" class="form-control" required>
+                <div class="valid-feedback">This one looks good</div>
+            </div>
+             <!-- EMAIL -->
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" name="user[email]" id="email" placeholder="xyz@t.com" value="<%=user.email  %>" class="form-control" required>
+            </div>
+
+    
+            <button class="btn btn-warning">Submit</button>
+        </form>
+        <button class="btn btn-info" onclick="document.location='/products'">Cancel</button>

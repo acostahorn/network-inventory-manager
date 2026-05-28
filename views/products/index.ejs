@@ -1,0 +1,64 @@
+<% layout('layouts/boilerplate') %>
+        <div class="container title">
+            <h1 class="display-1"><i>AAA Network Solutions</i></h1>
+        </div>
+
+        <div class="container title">
+            <h3>
+            List of items: <%=name %>
+            </h3>
+        </div>
+
+
+        <table class="table table-primary table-hover">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Brand</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">In Stock</th>
+                    <th scope="col">Price per Unit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let product of products) { %>
+                    <tr class="table-info">
+                        <th scope="row"></th>
+                        <td>
+                            <a href="/products?category=<%=product.category %>">
+                                <%=product.category %>
+                            </a>
+
+
+                        </td>
+                        <td>
+                            <%= product.brand%>
+                        </td>
+                        <td>
+                            <a href="/products/<%=product._id %>">
+                                <%=product.name%>
+                            </a>
+
+                        </td>
+                         <td>
+                            <%= product.quantity%>
+                        </td>
+                        <td>
+                            £<%= product.price%>
+                        </td>
+                    </tr>
+                    <%} %>
+
+
+            </tbody>
+        </table>
+        <% if (currentUser && currentUser.role === "admin") {%> 
+        <button class="btn btn-warning" onclick="document.location='/products/new'">Add New (admin)</button>
+        <%}  %> 
+        <% if (name!== 'All Products') {%>
+        <button class="btn btn-info" onclick="document.location='/products'">Show All</button>
+
+            <% } %>
+
+

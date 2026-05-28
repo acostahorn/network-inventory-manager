@@ -1,0 +1,77 @@
+<% layout('layouts/boilerplateAdminPage') %>
+
+    <div class="container title">
+        <h1 class="display-1"><i>AAA Network Solutions</i></h1>
+    </div>
+
+    <div class="container title">
+        <h3>
+            <%= name %>
+        </h3>
+    </div>
+
+    <table class="table table-primary table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <% if (currentUser && currentUser.role==='admin' ) { %>
+                    <th scope="col">Design</th>
+                    <% } %>
+                        <th scope="col">Chat</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let user of users) { %>
+                <tr class="table-info">
+                    <th scope="row"></th>
+
+                    <td>
+                        <a href="/users/<%= user._id %>">
+                            <%= user.username %>
+                        </a>
+                    </td>
+                    <td>
+                        <%= user.email %>
+                    </td>
+
+                    <% if (currentUser && currentUser.role==='admin' ) { %>
+                        <td>
+                            <% if (user.designStatus==='Pending Approval' && user.role !=='admin' ) { %>
+                                <a href="/users/<%= user._id %>/networkDesignPage" class="btn btn-primary btn-sm">
+                                    Review
+                                </a>
+                                <a href="/users/<%= user._id %>" class="btn btn-outline-secondary btn-sm">
+                                    View Profile
+                                </a>
+                                <% } %>
+                        </td>
+                        <% } %>
+
+                            <td>
+                                <% if (user.hasChatRequest) { %>
+                                    <form action="/conversations/<%= user._id %>/acknowledge?_method=PATCH"
+                                        method="POST" style="display:inline;">
+                                        <button type="submit" class="badge rounded-pill bg-warning text-dark border-0">
+                                            CHAT REQUEST (Click to Clear)
+                                        </button>
+                                    </form>
+
+                                    <form action="/conversations/<%= user._id %>/reactivateBot?_method=PATCH"
+                                        method="POST" style="display:inline;">
+                                        <button type="submit" class="btn btn-outline-success btn-sm">Restart
+                                            Bot</button>
+                                    </form>
+
+                                    <% } %>
+                            </td>
+                </tr>
+                <% } %>
+        </tbody>
+    </table>
+    <button class="btn btn-warning" onclick="document.location='/users/new'">Add New (admin)</button>
+    
+
+
+            

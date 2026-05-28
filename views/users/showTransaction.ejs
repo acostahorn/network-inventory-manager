@@ -1,0 +1,68 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container mt-4">
+    <h3>Transaction Summary: <%= name %></h3>
+    <table class="table table-primary table-hover mt-3">
+        <thead>
+            <tr>
+                <th scope="col">Ordered products:</th>
+                <th scope="col">Quantity:</th>
+                <th scope="col">Price:</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+
+        <% var total = 0; %>
+        
+        <% /* 1. Loop through the hardware products */ %>
+        <% for (let product of transaction) { %>
+            <% total += (product.productId.price * product.quantity) %>
+            <tr class="table-info">
+                <td>
+                    <%= product.productId.brand %>
+                    <a href="/products/<%= product.productId.id %>">
+                        <%= product.productId.name %>
+                    </a>
+                </td>
+                <td><%= product.quantity %></td>
+                <td>£ <%= (product.productId.price * product.quantity).toFixed(2) %></td>
+                <td></td>
+            </tr>
+        <% } %>
+
+        <% /* 2. Add the Labour Cost row if it exists */ %>
+        <% if (typeof labourCost !== 'undefined' && labourCost > 0) { %>
+            <tr class="table-warning">
+                <td><strong>Labour & Installation (Approved Design)</strong></td>
+                <td>1</td>
+                <td>£ <%= parseFloat(labourCost).toFixed(2) %></td>
+                <td></td>
+            </tr>
+            <% total += parseFloat(labourCost); %>
+        <% } %>
+
+        <% /* 3. Final Total Calculation */ %>
+        <tr class="table-dark text-white">
+            <td><strong>TOTAL PAID:</strong></td>
+            <td></td>
+            <td><strong>£ <%= total.toFixed(2) %></strong></td>
+            <td></td>
+        </tr>
+
+        <tr class="no-print">
+            <td><button class="btn btn-info mt-2" onclick="window.print()">Print This Invoice</button></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+
+<style>
+    /* This ensures the 'Print' button doesn't appear on the actual paper copy */
+    @media print {
+        .no-print, .btn, nav, footer {
+            display: none !important;
+        }
+    }
+</style>

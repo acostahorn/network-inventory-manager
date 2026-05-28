@@ -1,0 +1,80 @@
+<nav class="navbar sticky-top navbar-expand-lg" style="background-color: #8cf5d2;">
+  <a class="navbar-brand" href="/about"><img src="/favicon.ico"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <% if (currentUser) {%>
+      <a class="nav-link" href="/users/<%=currentUser._id %>"><span class="navbar-text"
+          style="color: #ba13ed; font-size: 1.5em;">&#128722;<%=currentUser.username %></span></a>
+
+
+
+      <%} %>
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+            <!-- <span class="sr-only">(current)</span></a> -->
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About</a>
+          </li>
+          <% if (currentUser) {%>
+            <!-- ADMIN ID HERE -->
+            <% if (currentUser.role==='admin' ) {%>
+              <li class="nav-item">
+                <a class="nav-link" href="/users">Manage Users</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/conversations" style="position: relative;">
+                  Inbox
+                  <% if (typeof pendingCount !=='undefined' && pendingCount> 0) { %>
+                    <span class="badge badge-pill bg-danger"
+                      style="font-size: 0.7em; vertical-align: top; margin-left: 2px;">
+                      <%= pendingCount %>
+                    </span>
+                    <% } %>
+                </a>
+              </li>
+              <%} %>
+                <%} %>
+                  <% if (currentUser) { %>
+                    <% if (currentUser.role==='user' ) {%>
+                      <li class="nav-item">
+                        <!-- Updated to use the dynamic ID route -->
+                        <a class="nav-link" href="/users/<%= currentUser._id %>/networkDesignPage">Design</a>
+                      </li>
+                     <% } %>
+                        <% } else { %>
+                          <li class="nav-item">
+                            <!-- Redirects to login if they try to design without an account -->
+                            <a class="nav-link" href="/users/login">Design</a>
+                          </li>
+                          <% } %>
+
+                            <li class="nav-item">
+                              <a class="nav-link" href="/products">Products</a>
+                            </li>
+
+                            <% if (!currentUser) {%>
+                              <li class="nav-item">
+                                <a class="nav-link" href="/users/login">Login</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="/users/new">Register</a>
+                              </li>
+                              <%} else {%>
+
+                                <li class="nav-item">
+                                  <a class="nav-link" href="/users/logout">Logout</a>
+                                </li>
+                                <%} %>
+        </ul>
+        <!-- <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form> -->
+  </div>
+</nav>

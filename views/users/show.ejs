@@ -1,0 +1,151 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="container">
+        <h3>User Page</h3>
+        <h4>User Role: <%=user.role %>
+        </h4>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="card mb-3" style="background-color: #bdfcee;">
+
+                <div class="card-body">
+
+                    <p class="card-text">
+                        Username: <%=user.username %>
+                    </p>
+
+                    <p class="card-text">
+                        Email: <%=user.email %>
+                    </p>
+
+                    <!-- this should be only shown to admin -->
+
+                    <!-- <p class="card-text">
+                        Password: <%=user.password %>
+                    </p> -->
+                </div>
+            </div>
+            <% if (currentUser.role==='admin' ) {%>
+                <button class="btn btn-info" onclick="document.location='/users'">Back to Users List</button>
+
+                <button class="btn btn-warning" onclick="document.location='/users/<%=user._id %>/edit'">Edit User
+                </button>
+                <%} %>
+                    <form action="/users/<%=user._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-sm btn-danger" id="delUser">Delete Account</button>
+                    </form>
+        </div>
+
+
+
+
+        <% if (currentUser) {%>
+            <div class="col-6">
+
+
+
+                <!-- ordered products table -->
+
+                <table class="table table-primary table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Ordered products:</th>
+                            <th scope="col">Quantity:</th>
+                            <th scope="col">Price:</th>
+                            <th scope="col"></th>
+
+
+                        </tr>
+                    </thead>
+
+
+
+                    <% var total=0; %>
+                        <% for (let product of user.cart) {%>
+                            <% total +=(product.productId.price * product.quantity) %>
+                                <tr class="table-info">
+                                    <!-- <th scope="row"></th> -->
+                                    <td>
+                                        <%=product.productId.brand %>
+                                            <a href="/products/<%=product.productId.id %>">
+
+                                                <%=product.productId.name %>
+
+                                            </a>
+                                    </td>
+                                    <td>
+                                        <%=product.quantity %>
+                                    </td>
+                                    <td class="text-nowrap">
+                                        £ <%=(product.productId.price * product.quantity).toFixed(2) %>
+                                    </td>
+                                    <td>
+
+                                        <form
+                                            action="/users/<%=user._id %>/products/<%=product.productId.id  %>?_method=DELETE"
+                                            method="POST">
+                                            <button class="btn btn-sm btn-danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+
+                                <%} %>
+
+                                    <% if (user.labourCost && user.labourCost> 0) { %>
+                                        <tr class="table-warning">
+                                            <td><strong>Labour & Installation</strong></td>
+                                            <td>1</td>
+                                            <td>£ <%= user.labourCost.toFixed(2) %>
+                                            </td>
+                                            <td>
+                                                <form
+                                                    action="/users/<%=user._id %>/deleteLabour?_method=DELETE"
+                                                    method="POST" onsubmit="return confirm('Are you sure you want to delete labour?')">
+                                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                                </form>
+
+
+                                            </td>
+
+                                        </tr>
+                                        <% total +=user.labourCost; %>
+                                            <% } %>
+
+
+
+
+                                                <tr>
+                                                    <td>TOTAL:</td>
+                                                    <td></td>
+
+                                                    <td>£ <%=total.toFixed(2) %>
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+
+
+                                                <tr>
+                                                    <td>
+                                                        <% if (currentUser.role==="user" ) {%>
+                                                            <form action="/users/<%=user._id%>/checkout?_method=DELETE"
+                                                                method="POST">
+                                                                <button class="btn btn-success">Checkout</button>
+                                                            </form>
+                                                            <%} %>
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+
+
+
+
+
+
+                </table>
+
+            </div>
+            <%} %>
+
+    </div>

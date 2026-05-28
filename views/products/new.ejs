@@ -1,0 +1,59 @@
+<% layout('layouts/boilerplate') %>
+
+    <h2>Add a Product</h2>
+    <!-- Input form -->
+    <form action="/products" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+        <!-- NAME -->
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" name="product[name]" id="name" placeholder="product name" class="form-control" required>
+            <div class="valid-feedback">This one looks good</div>
+        </div>
+        <!-- BRAND -->
+        <div class="form-group">
+            <label for="brand">Brand:</label>
+            <input type="text" name="product[brand]" id="brand" placeholder="brand" class="form-control" required>
+            <div class="valid-feedback">This one looks good</div>
+        </div>
+        <!-- PRICE -->
+        <div class="form-group">
+            <label class="form-label" for="price">Price: £</label>
+            <input type="number" name="product[price]" id="price" step=".01" min="0" aria-label="price"
+                aria-describedby="price-label" class="form-control" required>
+            </span>
+            <div class="valid-feedback">This one looks good</div>
+        </div>
+        <!-- CATEGORY -->
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <select name="product[category]" id="category" placeholder="category" class="form-control" required>
+
+                <% for(category of categories) {%>
+                    <option value="<%=category %>">
+                        <%=category %>
+                    </option>
+                    <%} %>
+            </select>
+        </div>
+        <!-- QUANTITY -->
+        <div class="form-group">
+            <label class="form-label" for="quantity">Quantity:</label>
+            <input type="number" name="product[quantity]" id="quantity" step="1" min="0" aria-label="quantity"
+                aria-describedby="quantity-label" class="form-control" required>
+            </span>
+            <div class="valid-feedback">This one looks good</div>
+        </div>
+        <!-- IMAGE -->
+        <div class="form-group">
+            <label class="form-label" for="image">Image</label>
+            <input type="file" id="image" name="images" class="form-control" required multiple>
+
+        </div>
+
+        <div class="form-group">
+            <label for="details">Details:</label>
+            <textarea id="details" name="product[details]" class="form-control" required></textarea>
+        </div>
+        <button class="btn btn-warning">Submit</button>
+    </form>
+    <button class="btn btn-info" onclick="document.location='/products'">Cancel</button>

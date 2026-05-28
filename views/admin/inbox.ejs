@@ -1,0 +1,58 @@
+<% layout('layouts/boilerplateAdminPage') %>
+
+    <div class="container mt-4">
+        <h1 class="mb-4">Admin Inbox</h1>
+
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-hover align-middle table-hover">
+                <thead class="table-primary">
+                    <tr>
+                        <th>User</th>
+                        <th>Status</th>
+                        <th>Last Message</th>
+                        <th>Updated</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <% for (let conv of allConversations) { %>
+        <tr class="table-info">
+            <td>
+                <% if (conv.userId) { %>
+                    <strong><%= conv.userId.username %></strong><br>
+                    <small class="text-muted"><%= conv.userId.email %></small>
+                <% } else { %>
+                    <strong class="text-danger">Deleted User</strong><br>
+                    <small class="text-muted">ID: <%= conv._id %></small>
+                <% } %>
+            </td>
+            <td>
+                <% if (conv.status === 'waiting_for_admin') { %>
+                    <span class="badge rounded-pill bg-danger">Waiting</span>
+                <% } else if (conv.status === 'in_progress') { %>
+                    <span class="badge rounded-pill bg-primary">In Progress</span>
+                <% } else { %>
+                    <span class="badge rounded-pill bg-secondary">Bot Active</span>
+                <% } %>
+            </td>
+            <td class="text-truncate" style="max-width: 200px;">
+                <%= conv.messages.length > 0 ? conv.messages[conv.messages.length - 1].text : 'No history' %>
+            </td>
+            <td>
+                <%= conv.updatedAt ? conv.updatedAt.toLocaleTimeString() : 'N/A' %>
+            </td>
+            <td>
+                <% if (conv.userId) { %>
+                    <a href="/admin/conversations/<%= conv.userId._id %>" class="btn btn-sm btn-outline-primary">
+                        Open Chat
+                    </a>
+                <% } else { %>
+                    <button class="btn btn-sm btn-outline-secondary" disabled>Unavailable</button>
+                <% } %>
+            </td>
+        </tr>
+    <% } %>
+</tbody>
+            </table>
+        </div>
+    </div>
