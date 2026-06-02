@@ -3,8 +3,7 @@
 const User = require('../models/user.js');
 
 const Product = require('../models/product.js');
-const categories = ['router', 'switch', 'cable', 'access point', 'workstation', 'server', 'printer','accessory'];
-
+const categories = require('../utils/categories');
 
 const ObjectId = require('mongoose').Types.ObjectId;
 

@@ -9,7 +9,7 @@ const passport = require('passport');
 const { productSchema, userSchema } = require('../schemas.js');
 const { isLoggedIn, validateObjectId, fetchPendingCount, storeReturnTo, isOwner, isAdmin, validateProduct } = require('../middleware.js');
 
-const categories = ['router', 'switch', 'cable', 'access point', 'workstation', 'server', 'printer','accessory'];
+
 
 router.use(fetchPendingCount);
 

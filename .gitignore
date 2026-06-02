@@ -4,4 +4,4 @@ node_modules/
 .vercel
 .vercelignore
 .azure
-
+.DS_Store

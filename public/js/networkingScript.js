@@ -127,10 +127,11 @@ function loadAll() {
 // IMPORTANT: Trigger the loader immediately when the file is loaded
 
 function createRestoredSprite(data) {
-    // This is essentially your addPiece logic but using 'data' instead of 'sel[i]'
+    // This is essentially our addPiece logic but using 'data' instead of 'sel[i]'
     var sprite = document.createElement('div');
     sprite.classList.add('sprite');
     sprite.dataset.id = data.id;
+    sprite.dataset.productName = data.label;
     sprite.style.left = data.left;
     sprite.style.top = data.top;
 
@@ -142,12 +143,10 @@ function createRestoredSprite(data) {
 
     sprite.appendChild(image);
     sprite.appendChild(label);
-
-    // RE-ATTACH ALL YOUR EXISTING LOGIC
     sprite.addEventListener('click', handleSpriteClick);
     sprite.addEventListener('dblclick', (e) => { e.stopPropagation(); deleteSprite(sprite); });
 
-    // Re-attach Drag (Simplified version of your existing mouseDown)
+    // Simplified version of our existing mouseDown)
     sprite.addEventListener('mousedown', (e) => {
         let startX = e.clientX, startY = e.clientY;
         const move = (e) => {
@@ -197,7 +196,7 @@ function handleSpriteClick(e) {
         selectedSprite.style.outline = "none";
         selectedSprite = null;
 
-        // Single point of truth for saving after the interaction is complete
+        // Save point
         saveAll();
     }
 }
@@ -282,10 +281,13 @@ function connectSprites(spriteA, spriteB, cableType) {
 
 function deleteSprite(spriteElement) {
     // 1. Remove the sprite's own identity from orders (e.g., "Router")
-    const spriteLabel = spriteElement.querySelector('span').innerText;
-    const spriteIndex = window.orders.indexOf(spriteLabel);
+    const productName = spriteElement.dataset.productName;
+    const spriteIndex = window.orders.indexOf(productName);
     if (spriteIndex > -1) {
         window.orders.splice(spriteIndex, 1);
+        console.log(`Successfully removed ${productName} from orders.`);
+    } else {
+        console.warn(`Could not find "${productName}" in orders array!`);
     }
 
     // 2. Find all cables connected to this sprite
@@ -302,7 +304,7 @@ function deleteSprite(spriteElement) {
     if (selectedSprite === spriteElement) {
         selectedSprite = null;
     }
-
+    updateAdminStockSummary();
     updateSubmitButtonState();
 
     saveAll();
@@ -332,6 +334,7 @@ function addPiece(i) {
     // 1. Create the Sprite Element
     const sprite = document.createElement('div');
     sprite.classList.add('sprite');
+    sprite.dataset.productName = sel[i].value;
     // 1. Calculate position BEFORE incrementing
     // This creates a grid: 6 columns wide, 50px spacing
     let column = index % 6;           // 0, 1, 2, 3, 4, 5

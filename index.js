@@ -1,5 +1,7 @@
-//version 1.4
+//version 1.5
 //AAA Network WebApp
+
+const categories = require('./utils/categories');
 
 
 
@@ -40,7 +42,6 @@ const dbUrl = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/AAAStore';
 
 
 const { productSchema, userSchema } = require('./schemas');
-const categories = ['router', 'switch', 'cable', 'access point', 'workstation', 'server', 'printer','accessory'];
 
 //Mongoose start
 const mongoose = require('mongoose');

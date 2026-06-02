@@ -12,7 +12,7 @@ const designs = require('../controllers/designs.js')
 const mongoose = require('mongoose');
 
 const passport = require('passport');
-const categories = ['router', 'switch', 'cable', 'access point', 'workstation', 'server', 'printer','accessory'];
+
 
 router.use(fetchPendingCount);
 
