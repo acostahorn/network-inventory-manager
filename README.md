@@ -18,6 +18,8 @@ A full-stack network asset inventory management system and interactive topology 
 | **Frontend UI** | EJS, Bootstrap 5, Native HTML5 Canvas |
 
 ---
+## Sample Image:
+<img width="1920" height="1032" alt="image" src="https://github.com/user-attachments/assets/20f433e1-414d-417b-9067-42e4575fbf34" />
 
 ## Release Notes: v1.5.0 (June 2, 2026)
 
