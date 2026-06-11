@@ -5,7 +5,7 @@ A full-stack network asset inventory management system and interactive topology 
 ## Key Architectural Features
 
 * **Visual Canvas Interface:** Drag-and-drop network topology area tied directly to underlying asset inventory specifications.
-* **Server-Side Pagination:** Optimized performance with cursor-limited data streaming ($10$ items per chunk) to scale seamlessly from 15 items to 15,000+.
+* **Server-Side Pagination:** Optimized performance with cursor-limited data streaming (10 items per chunk) to scale seamlessly from 15 items to 15,000+.
 * **State-Preserving Search & Filtering:** Dynamic pipeline combining full-text search matching and category dropdown filters that persist perfectly across pagination indices.
 * **Single Source of Truth Design:** Architecture decoupled from rigid string dependencies, routing both backend Mongoose schemas and frontend Canvas layout operations through a unified central configuration file.
 
